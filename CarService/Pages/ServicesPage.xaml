@@ -1,0 +1,137 @@
+﻿<Page x:Class="CarService.Pages.ServicesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CarService.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Список услуг" Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <ComboBox Margin="5" Width="200" Height="25"
+                      Name="ComboSortBy" SelectionChanged="ComboSortBy_SelectionChanged"
+                      FontSize="16">
+                <ComboBoxItem Content="По возрастанию цены"/>
+                <ComboBoxItem Content="По убыванию цены"/>
+            </ComboBox>
+            <ComboBox Margin="5" Width="200" Height="25"
+                      Name="ComboDiscount" SelectionChanged="ComboDiscount_SelectionChanged"
+                      FontSize="16">
+                <ComboBoxItem Content="Все"/>
+                <ComboBoxItem Content="От 0 до 5 %"/>
+                <ComboBoxItem Content="От 5 до 15 %"/>
+                <ComboBoxItem Content="От 15 до 30 %"/>
+                <ComboBoxItem Content="От 30 до 70 %"/>
+                <ComboBoxItem Content="От 70 до 100 %"/>
+            </ComboBox>
+            <TextBox Height="25" Name="TBoxSearch" Width="200" Margin ="5" TextChanged="TBoxSearch_TextChanged" FontSize="16"/>
+        </StackPanel>
+        <TextBlock Grid.Row="1" Width="auto" FontWeight="Bold" Name="BlockRecords"/>
+
+        <ListView Grid.Row="2" Name="LViewServices"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Orange"
+                            CornerRadius="20"
+                            Padding="5"
+                            Background="{Binding BackColor}"
+                            Width="500"
+                            Height="105">
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Width="90" Height="90" Source="{Binding MainImage}" Margin="10, 0, 0, 0"/>
+
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Width="340" Text="{Binding Title}" FontWeight="Bold" FontSize="17"/>
+
+                                <StackPanel Orientation="Horizontal">
+                                    
+                                    <Separator Width="25" Height="20" Background="{x:Null}"/>
+                                    
+                                    <TextBlock Width="auto" 
+                                               Text="{Binding Cost, StringFormat=N2}" 
+                                               Visibility="{Binding DiscountVisibility}" 
+                                               TextDecorations="Strikethrough" FontSize="14"/>
+                                    
+                                    <Separator Width="10" Visibility="Hidden"/>
+
+                                    <TextBlock Width="auto" Text="{Binding TotalCost}" FontSize="14"/>
+                                </StackPanel>
+
+                                <TextBlock Width="auto"
+                                           FontSize="14"
+                                           FontStyle="Italic"
+                                           FontWeight="SemiBold"
+                                           TextDecorations="OverLine"
+                                           Margin="30, 0, 5,0"
+                                           Text="{Binding DiscountText}"
+                                           Visibility="{Binding DiscountVisibility}"
+                                           HorizontalAlignment="Left" />
+                                
+                                <Separator  Height="0" Background="{x:Null}"/>
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    <Separator  Width="25" Background="{x:Null}"/>
+                                    
+                                    
+                                    <Button Content="Редактировать" Name="BtnEdit" Click="BtnEdit_Click" Width="150" Height="25" Foreground="White" Style="{StaticResource ServiceButtons}" Visibility="{Binding AdminControlsVisibility}">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="5"/>
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                    
+                                    
+                                    <Separator  Width="25" Background="{x:Null}"/>
+                                    
+                                    
+                                    <Button Content="Удалить" Name="BtnDelete" Click="BtnDelete_Click" Width="150" Height="25" Foreground="White" Style="{StaticResource ServiceButtons}" Visibility="{Binding AdminControlsVisibility}">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="5"/>
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                    
+                                    
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Grid.Row="3" HorizontalAlignment="Right" Name="BtnAddService" Click="BtnAddService_Click" Content="Добавить услугу" Width="200" Height="35" BorderThickness="0" Style="{StaticResource  StandartButtons}" Margin="5, 5, 25, 5">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</Page>

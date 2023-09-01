@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="StandartButtons" TargetType="Button">
+
+        <Setter Property="Background" Value="Orange"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="BorderBrush" Value="#FF525252"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="Height" Value="30"/>
+    </Style>
+
+    <Style x:Key="ServiceButtons" TargetType="Button">
+
+        <Setter Property="Background" Value="Orange"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="BorderBrush" Value="#FF525252"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="Height" Value="25"/>
+    </Style>
+
+
+    <Style x:Key="Header" TargetType="TextBlock">
+
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+
+    </Style>
+
+    <Style x:Key="BlockCommon" TargetType="TextBlock">
+
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="16"/>
+
+    </Style>
+
+</ResourceDictionary>
