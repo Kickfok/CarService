@@ -39,5 +39,3 @@
 Для закрытия программы используйте клавишу Esc.
 
 С помощью этой информации, вы сможете успешно авторизоваться в программе Car Service и начать использовать ее функциональность в соответствии с вашей ролью.
-
-https://docs.google.com/document/d/1WInInLvPDcGLJoiyJWsxPpChTRHN44Uz/edit?usp=sharing&ouid=103411207834187286089&rtpof=true&sd=true
