@@ -1,41 +1,243 @@
-1. Инструкция по использованию программы Car Service
+<div align="center">
 
-1.1 Введение
-Программа Car Service предназначена для управления информацией о клиентах, услугах и их взаимодействии в автомобильном сервисе. В этом разделе мы предоставим вам подробную инструкцию о том, как пользоваться программой Car Service.
+<img src="CarService/Images/Useful%20Images/service_logo.png" width="96" alt="Логотип Car Service">
 
-1.2 Авторизация
-• Запустите программу Car Service.
-• Откроется страница авторизации (LoginPage.xaml).
-• Введите свои учетные данные (логин и пароль).
+# Car Service
 
-Авторизация для администратора
-Логин: admin1 - Пароль: admin1
+**Настольное приложение для ведения каталога услуг автосервиса**
 
-Авторизация для пользователя
-Логин: user1 - Пароль: user1
+[![Build](https://github.com/Kickfok/CarService/actions/workflows/build.yml/badge.svg)](https://github.com/Kickfok/CarService/actions/workflows/build.yml)
+![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.7.2-512BD4?logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-7.3-239120?logo=csharp&logoColor=white)
+![WPF](https://img.shields.io/badge/UI-WPF-0C54C2)
+![Entity Framework](https://img.shields.io/badge/ORM-Entity%20Framework%206-6DB33F)
+![SQL Server](https://img.shields.io/badge/DB-SQL%20Server-CC2927?logo=microsoftsqlserver&logoColor=white)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-• Нажмите кнопку "Войти".
+[Возможности](#возможности) •
+[Скриншоты](#скриншоты) •
+[Быстрый старт](#быстрый-старт) •
+[Архитектура](#архитектура) •
+[Руководство пользователя](docs/USER_GUIDE.md)
 
-1.3 Роли пользователей
-Администратор: После успешной авторизации как администратор, вы получите доступ ко всем функциям программы, включая изменение, удаление и добавление новых услуг.
-Пользователь: Пользователи имеют право только на просмотр существующих услуг.
+</div>
 
-1.4 Основной интерфейс
-После успешной авторизации, вы попадете на главную страницу (MainWindow.xaml).
-На этой странице вы увидите список доступных услуг и информацию о клиентах.
+---
 
-1.5 Добавление новой услуги
-На главной странице (MainWindow.xaml) нажмите кнопку "Добавить услугу".
-Вы перейдете на страницу AddEditServicePage.xaml, где вы можете заполнить информацию о новой услуге, включая добавление изображения.
-После заполнения всех необходимых полей нажмите кнопку "Сохранить".
+## О проекте
 
-1.6 Фильтрация услуг
-На главной странице (MainWindow.xaml) вы можете использовать элементы интерфейса ComboBox и TextBox для фильтрации списка услуг.
-При выборе параметров фильтрации нажмите кнопку "Обновить список", чтобы отобразить отфильтрованный список услуг.
+Car Service - приложение на WPF для сотрудников автосервиса. Оно показывает каталог услуг с ценами, скидками
+и изображениями, позволяет искать и фильтровать услуги, а администратору - добавлять, редактировать и удалять их.
+Данные хранятся в Microsoft SQL Server, доступ к ним выполняется через Entity Framework 6 (подход Database First).
 
-1.7 Горячие клавиши
-Для возврата к стандартному размеру окна используйте клавишу F11.
-Для разворачивания окна на полный экран используйте клавишу F12.
-Для закрытия программы используйте клавишу Esc.
+Проект выполнен в рамках учебной практики (УП 05.01).
 
-С помощью этой информации, вы сможете успешно авторизоваться в программе Car Service и начать использовать ее функциональность в соответствии с вашей ролью.
+## Возможности
+
+| | Функция | Администратор | Пользователь |
+|---|---|:---:|:---:|
+| 🔐 | Вход по логину и паролю, пароли хранятся в виде хешей PBKDF2 | ✅ | ✅ |
+| 📋 | Каталог услуг: цена, длительность, скидка, изображение | ✅ | ✅ |
+| 🔎 | Поиск по названию, фильтр по размеру скидки, сортировка по цене | ✅ | ✅ |
+| ➕ | Добавление услуги с проверкой введенных данных | ✅ | - |
+| ✏️ | Редактирование услуги и замена изображения | ✅ | - |
+| 🗑️ | Удаление услуги (запрещено, если на нее записаны клиенты) | ✅ | - |
+
+Дополнительно:
+
+- услуги со скидкой выделяются зеленым фоном, старая цена зачеркнута;
+- над списком отображается счетчик "Показано N из M";
+- горячие клавиши: `Enter` - войти, `F11` - обычный размер окна, `F12` - на весь экран, `Esc` - выход.
+
+## Скриншоты
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/images/01-login.png" alt="Авторизация"><br><sub>Авторизация</sub></td>
+    <td align="center"><img src="docs/images/02-services-admin.png" alt="Список услуг (администратор)"><br><sub>Список услуг: администратор</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/images/03-edit-service.png" alt="Редактирование услуги"><br><sub>Редактирование услуги</sub></td>
+    <td align="center"><img src="docs/images/06-services-user.png" alt="Список услуг (пользователь)"><br><sub>Список услуг: пользователь, только просмотр</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/images/04-validation.png" alt="Проверка введенных данных"><br><sub>Проверка введенных данных</sub></td>
+    <td align="center"><img src="docs/images/05-delete-protected.png" alt="Защита от удаления"><br><sub>Защита от удаления услуги с записями</sub></td>
+  </tr>
+</table>
+
+## Быстрый старт
+
+### Требования
+
+- Windows 10 или 11;
+- [Visual Studio 2019 или новее](https://visualstudio.microsoft.com/) с рабочей нагрузкой **"Разработка классических приложений .NET"**;
+- SQL Server LocalDB (ставится вместе с Visual Studio) либо любой другой экземпляр SQL Server 2012+;
+- утилита `sqlcmd` (входит в SQL Server Management Studio и в состав Visual Studio).
+
+### 1. Клонирование
+
+```bash
+git clone https://github.com/Kickfok/CarService.git
+```
+
+### 2. Создание базы данных
+
+Скрипт создает базу `CarService` в LocalDB и наполняет ее тестовыми данными: 17 услуг с изображениями,
+клиенты, записи на услуги и две учетные записи.
+
+```powershell
+cd CarService\database
+.\Setup-Database.ps1
+```
+
+Другой сервер, ручной запуск SQL-скриптов и пересоздание базы описаны в [database/README.md](database/README.md).
+
+### 3. Запуск
+
+Откройте `CarService.sln` в Visual Studio и нажмите `F5`. NuGet-пакеты восстановятся автоматически.
+
+Сборка из командной строки (Developer PowerShell for VS):
+
+```powershell
+msbuild CarService.sln -t:restore -p:RestorePackagesConfig=true
+msbuild CarService.sln -p:Configuration=Release
+.\CarService\bin\Release\CarService.exe
+```
+
+### Учетные записи
+
+| Роль | Логин | Пароль |
+|---|---|---|
+| Администратор | `admin1` | `admin1` |
+| Пользователь | `user1` | `user1` |
+
+> [!WARNING]
+> Это тестовые учетные записи для демонстрации. Не используйте их в реальной базе.
+
+### Подключение к другому серверу
+
+Строка подключения находится в [CarService/App.config](CarService/App.config) (`CarServiceEntities`).
+По умолчанию используется `(localdb)\MSSQLLocalDB` с проверкой подлинности Windows. Для SQL Server Express
+замените `data source=(localdb)\MSSQLLocalDB` на `data source=.\SQLEXPRESS`.
+
+## Архитектура
+
+### Структура решения
+
+```
+CarService/
+├── CarService/                     # WPF-приложение
+│   ├── Entities/                   # Модель EF (CarServiceModel.edmx) и сгенерированные сущности
+│   │   └── ServicePartial.cs       # Вычисляемые свойства услуги для отображения
+│   ├── Pages/
+│   │   ├── LoginPage.xaml          # Авторизация
+│   │   ├── ServicesPage.xaml       # Список услуг, поиск, фильтры
+│   │   └── AddEditServicePage.xaml # Добавление и редактирование услуги
+│   ├── Dictionaries/               # Общие стили
+│   ├── MainWindow.xaml             # Главное окно с навигацией (Frame)
+│   ├── App.xaml.cs                 # Контекст БД и текущий пользователь
+│   └── Roles.cs                    # Идентификаторы ролей
+├── UserRegistration/               # Библиотека: хеширование паролей и оценка их сложности
+├── UserRegistration.Tests/         # Модульные тесты библиотеки (MSTest)
+├── database/                       # SQL-скрипты, тестовые данные и скрипт установки БД
+└── docs/                           # Руководство пользователя и скриншоты
+```
+
+### Навигация
+
+```mermaid
+flowchart LR
+    Start([Запуск]) --> Login[LoginPage<br>Авторизация]
+    Login -->|admin1| ServicesA[ServicesPage<br>просмотр и управление]
+    Login -->|user1| ServicesU[ServicesPage<br>только просмотр]
+    ServicesA -->|Добавить услугу| Add[AddEditServicePage<br>добавление]
+    ServicesA -->|Редактировать| Edit[AddEditServicePage<br>редактирование]
+    Add -->|Сохранить / Назад| ServicesA
+    Edit -->|Сохранить / Назад| ServicesA
+    ServicesA -->|Назад| Login
+    ServicesU -->|Назад| Login
+```
+
+### Основные таблицы
+
+```mermaid
+erDiagram
+    Role ||--o{ User : "RoleId"
+    Service ||--o{ ClientService : "ServiceID"
+    Client ||--o{ ClientService : "ClientID"
+    Gender ||--o{ Client : "GenderCode"
+    Service ||--o{ ServicePhoto : "ServiceID"
+
+    User {
+        nvarchar Login PK
+        nvarchar Password "хеш PBKDF2"
+        int RoleId FK
+    }
+    Role {
+        int Id PK
+        nchar Name
+    }
+    Service {
+        int ID PK
+        nvarchar Title
+        money Cost
+        int DurationInSeconds
+        float Discount "доля от 0 до 1"
+        image MainImage
+    }
+    ClientService {
+        int ID PK
+        int ClientID FK
+        int ServiceID FK
+        datetime StartTime
+    }
+    Client {
+        int ID PK
+        nvarchar LastName
+        nvarchar FirstName
+        nvarchar Phone
+        nchar GenderCode FK
+    }
+```
+
+Полная схема (16 таблиц, включая товары, продажи и теги клиентов) - в [database/01-schema.sql](database/01-schema.sql).
+
+### Хранение паролей
+
+Пароли хранятся не открытым текстом, а в виде строки
+`PBKDF2$SHA256$<итерации>$<соль>$<хеш>` (100 000 итераций, случайная соль 16 байт).
+Реализация - [UserRegistration/PasswordHasher.cs](UserRegistration/PasswordHasher.cs).
+Хеш для нового пользователя можно получить так:
+
+```powershell
+Add-Type -Path .\UserRegistration\bin\Debug\UserRegistration.dll
+[UserRegistration.PasswordHasher]::Hash('новый_пароль')
+```
+
+## Тесты
+
+Модульные тесты покрывают хеширование паролей и оценку их сложности (23 теста).
+В Visual Studio: **Тест → Запустить все тесты**. Из командной строки:
+
+```powershell
+vstest.console.exe .\UserRegistration.Tests\bin\Debug\UserRegistration.Tests.dll
+```
+
+При каждом push и pull request тесты запускаются в [GitHub Actions](.github/workflows/build.yml).
+
+## Технологии
+
+- **C# 7.3, .NET Framework 4.7.2**
+- **WPF**: страницы и навигация через `Frame`, стили в `ResourceDictionary`
+- **Entity Framework 6.2**: Database First, модель `.edmx` с генерацией сущностей из T4-шаблонов
+- **Microsoft SQL Server / LocalDB**
+- **MSTest 2**: модульные тесты
+
+## История изменений
+
+См. [CHANGELOG.md](CHANGELOG.md).
+
+## Лицензия
+
+Проект распространяется по лицензии MIT, подробнее - в файле [LICENSE](LICENSE).
