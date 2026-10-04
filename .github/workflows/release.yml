@@ -1,0 +1,93 @@
+name: Release
+
+# Запускается при отправке тега вида v1.2.3:
+#   git tag v1.2.3
+#   git push origin v1.2.3
+# Собирает приложение, прогоняет тесты, публикует релиз с архивом и NuGet-пакет в GitHub Packages.
+
+on:
+  push:
+    tags: [ 'v*.*.*' ]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine version
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw "Тег $env:GITHUB_REF_NAME не соответствует формату vX.Y.Z" }
+          "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Set application version
+        shell: pwsh
+        run: |
+          $path = 'CarService\Properties\AssemblyInfo.cs'
+          $text = Get-Content $path -Raw -Encoding UTF8
+          $text = $text -replace 'Assembly(File)?Version\("[\d\.]+"\)', "Assembly`$1Version(""$env:VERSION.0"")"
+          Set-Content $path $text -Encoding UTF8 -NoNewline
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1.3
+
+      - name: Restore NuGet packages
+        run: msbuild CarService.sln -t:restore -p:RestorePackagesConfig=true
+
+      - name: Build
+        run: msbuild CarService.sln -p:Configuration=Release -p:Version=${{ env.VERSION }} -m
+
+      - name: Test
+        run: vstest.console.exe UserRegistration.Tests\bin\Release\UserRegistration.Tests.dll
+
+      - name: Package application
+        shell: pwsh
+        run: |
+          $name = "CarService-$env:VERSION"
+          $stage = Join-Path 'artifacts' $name
+          New-Item -ItemType Directory -Force "$stage\app", "$stage\docs" | Out-Null
+
+          # Программа: exe, библиотеки, конфигурация и русские ресурсы EF, без pdb и xml-документации
+          Get-ChildItem 'CarService\bin\Release' -Recurse -File |
+            Where-Object { $_.Extension -in '.exe', '.dll', '.config' } |
+            ForEach-Object {
+              $target = Join-Path "$stage\app" ($_.FullName.Substring((Resolve-Path 'CarService\bin\Release').Path.Length + 1))
+              New-Item -ItemType Directory -Force (Split-Path $target) | Out-Null
+              Copy-Item $_.FullName $target
+            }
+
+          Copy-Item 'database' "$stage\database" -Recurse
+          Copy-Item 'docs\USER_GUIDE.md' "$stage\docs\"
+          Copy-Item 'docs\images' "$stage\docs\images" -Recurse
+          Copy-Item 'README.md', 'CHANGELOG.md', 'LICENSE' $stage
+
+          Compress-Archive -Path $stage -DestinationPath "artifacts\$name.zip"
+
+      - name: Pack NuGet package
+        run: msbuild UserRegistration\UserRegistration.csproj -t:pack -p:Configuration=Release -p:NoBuild=true -p:Version=${{ env.VERSION }} -p:PackageOutputPath=${{ github.workspace }}\artifacts
+
+      - name: Release notes
+        shell: pwsh
+        run: .github\scripts\Get-ReleaseNotes.ps1 -Version $env:VERSION -OutFile artifacts\release-notes.md
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Car Service ${{ env.VERSION }}
+          body_path: artifacts/release-notes.md
+          files: |
+            artifacts/CarService-${{ env.VERSION }}.zip
+            artifacts/CarService.UserRegistration.${{ env.VERSION }}.nupkg
+
+      - name: Publish NuGet package to GitHub Packages
+        run: dotnet nuget push "artifacts\CarService.UserRegistration.${{ env.VERSION }}.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate

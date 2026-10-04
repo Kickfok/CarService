@@ -7,6 +7,7 @@
 **Настольное приложение для ведения каталога услуг автосервиса**
 
 [![Build](https://github.com/Kickfok/CarService/actions/workflows/build.yml/badge.svg)](https://github.com/Kickfok/CarService/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/Kickfok/CarService?label=release)](https://github.com/Kickfok/CarService/releases/latest)
 ![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.7.2-512BD4?logo=dotnet&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-7.3-239120?logo=csharp&logoColor=white)
 ![WPF](https://img.shields.io/badge/UI-WPF-0C54C2)
@@ -68,32 +69,47 @@ Car Service - приложение на WPF для сотрудников авт
 
 ## Быстрый старт
 
-### Требования
+### Готовая сборка
+
+1. Скачайте `CarService-<версия>.zip` со страницы [последнего релиза](https://github.com/Kickfok/CarService/releases/latest) и распакуйте.
+2. В распакованной папке выполните в PowerShell:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File database\Setup-Database.ps1
+   ```
+3. Запустите `app\CarService.exe`.
+
+Нужны .NET Framework 4.7.2+ (есть в Windows 10 и 11), SQL Server LocalDB и `sqlcmd`.
+
+### Сборка из исходников
+
+#### Требования
 
 - Windows 10 или 11;
 - [Visual Studio 2019 или новее](https://visualstudio.microsoft.com/) с рабочей нагрузкой **"Разработка классических приложений .NET"**;
 - SQL Server LocalDB (ставится вместе с Visual Studio) либо любой другой экземпляр SQL Server 2012+;
 - утилита `sqlcmd` (входит в SQL Server Management Studio и в состав Visual Studio).
 
-### 1. Клонирование
+#### 1. Клонирование
 
 ```bash
 git clone https://github.com/Kickfok/CarService.git
 ```
 
-### 2. Создание базы данных
+#### 2. Создание базы данных
 
 Скрипт создает базу `CarService` в LocalDB и наполняет ее тестовыми данными: 17 услуг с изображениями,
 клиенты, записи на услуги и две учетные записи.
 
 ```powershell
 cd CarService\database
-.\Setup-Database.ps1
+powershell -ExecutionPolicy Bypass -File .\Setup-Database.ps1
 ```
+
+Ключ `-ExecutionPolicy Bypass` разрешает выполнить скрипт только в этом запуске и не меняет настройки системы.
 
 Другой сервер, ручной запуск SQL-скриптов и пересоздание базы описаны в [database/README.md](database/README.md).
 
-### 3. Запуск
+#### 3. Запуск
 
 Откройте `CarService.sln` в Visual Studio и нажмите `F5`. NuGet-пакеты восстановятся автоматически.
 
@@ -211,7 +227,7 @@ erDiagram
 Хеш для нового пользователя можно получить так:
 
 ```powershell
-Add-Type -Path .\UserRegistration\bin\Debug\UserRegistration.dll
+Add-Type -Path .\UserRegistration\bin\Debug\net472\UserRegistration.dll
 [UserRegistration.PasswordHasher]::Hash('новый_пароль')
 ```
 
@@ -225,6 +241,20 @@ vstest.console.exe .\UserRegistration.Tests\bin\Debug\UserRegistration.Tests.dll
 ```
 
 При каждом push и pull request тесты запускаются в [GitHub Actions](.github/workflows/build.yml).
+
+## Релизы и NuGet-пакет
+
+Релиз собирается автоматически workflow [release.yml](.github/workflows/release.yml) при отправке тега `vX.Y.Z`:
+
+```bash
+git tag v1.1.0
+git push origin v1.1.0
+```
+
+Workflow проставляет версию, собирает решение, прогоняет тесты и публикует:
+
+- [релиз](https://github.com/Kickfok/CarService/releases) с архивом `CarService-X.Y.Z.zip` (программа, скрипты БД, документация) и описанием из [CHANGELOG.md](CHANGELOG.md);
+- [NuGet-пакет](https://github.com/Kickfok/CarService/pkgs/nuget/CarService.UserRegistration) `CarService.UserRegistration` в GitHub Packages: хеширование паролей и оценка их сложности ([описание пакета](UserRegistration/README.md)).
 
 ## Технологии
 

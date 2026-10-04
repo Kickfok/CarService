@@ -11,16 +11,20 @@
 
 ```powershell
 cd database
-.\Setup-Database.ps1
+powershell -ExecutionPolicy Bypass -File .\Setup-Database.ps1
 ```
 
 Скрипт запускает экземпляр LocalDB `MSSQLLocalDB`, создает базу и загружает данные.
 Повторный запуск на уже созданной базе остановится с сообщением и ничего не изменит.
 
+Ключ `-ExecutionPolicy Bypass` нужен, если политика выполнения PowerShell запрещает запуск скриптов
+(по умолчанию на Windows это так, а скрипты из скачанного архива дополнительно помечены как полученные
+из интернета). Он действует только на этот запуск и не меняет настройки системы.
+
 ## Другой сервер
 
 ```powershell
-.\Setup-Database.ps1 -Server ".\SQLEXPRESS"
+powershell -ExecutionPolicy Bypass -File .\Setup-Database.ps1 -Server ".\SQLEXPRESS"
 ```
 
 Используется проверка подлинности Windows. После создания базы укажите тот же сервер в строке подключения
@@ -34,7 +38,7 @@ cd database
 ## Пересоздание базы
 
 ```powershell
-.\Setup-Database.ps1 -Recreate
+powershell -ExecutionPolicy Bypass -File .\Setup-Database.ps1 -Recreate
 ```
 
 > [!CAUTION]
@@ -73,7 +77,7 @@ sqlcmd -S "(localdb)\MSSQLLocalDB" -E -C -b -f 65001 -i 02-seed.sql
 Чтобы добавить пользователя, получите хеш методом `UserRegistration.PasswordHasher.Hash`:
 
 ```powershell
-Add-Type -Path ..\UserRegistration\bin\Debug\UserRegistration.dll
+Add-Type -Path ..\UserRegistration\bin\Debug\net472\UserRegistration.dll
 $hash = [UserRegistration.PasswordHasher]::Hash('новый_пароль')
 sqlcmd -S "(localdb)\MSSQLLocalDB" -E -C -d CarService -Q "INSERT INTO dbo.[User] (Login, Password, RoleId) VALUES (N'manager', N'$hash', 2)"
 ```
