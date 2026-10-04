@@ -1,9 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace CarService
@@ -13,10 +7,13 @@ namespace CarService
     /// </summary>
     public partial class App : Application
     {
-        //Cтатическое свойство Context, возвращающее новый экземпляр модели Entity Framework.
-        public static Entities.СarServiceEntities Context { get; } = new Entities.СarServiceEntities();
-        
-        //Свойство для хранения авторизированного пользователя
-        public static Entities.User CurrentUser = null;
+        // Единственный экземпляр контекста Entity Framework на все время работы приложения.
+        public static Entities.CarServiceEntities Context { get; } = new Entities.CarServiceEntities();
+
+        // Авторизованный пользователь. Сбрасывается при возврате на страницу авторизации.
+        public static Entities.User CurrentUser { get; set; }
+
+        // Признак того, что текущий пользователь - администратор.
+        public static bool IsAdmin => CurrentUser != null && CurrentUser.RoleId == Roles.Admin;
     }
 }

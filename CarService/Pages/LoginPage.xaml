@@ -29,7 +29,7 @@
 
             <Separator Height="15" Background="{x:Null}"/>
 
-            <Button x:Name="BtnLogin" Content="Войти" HorizontalAlignment="Right" Click="BtnLogin_Click" Width="150" Style="{StaticResource ServiceButtons}"/>
+            <Button x:Name="BtnLogin" Content="Войти" HorizontalAlignment="Right" Click="BtnLogin_Click" IsDefault="True" Width="150" Style="{StaticResource ServiceButtons}"/>
         </StackPanel>
 
     </Grid>

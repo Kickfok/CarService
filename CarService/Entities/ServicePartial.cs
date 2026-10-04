@@ -1,100 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
 
 namespace CarService.Entities
 {
+    // Вычисляемые свойства услуги для привязки в списке услуг (ServicesPage).
+    // Сгенерированная часть класса находится в Service.cs и перезаписывается из модели.
     public partial class Service
     {
-        public string DiscountText
-        {
-            get
-            {
-                if (Discount == 0 || Discount == null)
-                    return "";
-                else return $"* скидка {Discount * 100} %";
-            }
-        }
+        // Размер скидки в процентах, 0 если скидки нет.
+        public double DiscountPercent => Math.Round((Discount ?? 0) * 100, 2);
 
-        public string TotalCost
-        {
-            get
-            {
-                if (Discount  == 0 || Discount == null)
-                {
-                    return $"{Cost:N2} рублей за {DurationInSeconds / 60} минут";
-                }
-                else
-                {
-                    return $"{CostWithDiscount:N2} рублей за {DurationInSeconds / 60} минут";
-                }
-            }
-        }
+        public bool HasDiscount => DiscountPercent > 0;
 
-        public double CostWithDiscount
-        {
-            get
-            {
-                if (Discount == 0 || Discount == null)
-                {
-                    return (double)Cost;
-                }
-                else
-                {
-                    var costWithDiscount = (double)Cost * (1.00 - Discount);
-                    return costWithDiscount.Value;
-                }
-            }
-        }
+        public string DiscountText => HasDiscount ? $"* скидка {DiscountPercent:0.##} %" : "";
 
-        public Visibility DiscountVisibility
-        {
-            get
-            {
-                if (Discount == 0 || Discount == null)
-                {
-                    return Visibility.Collapsed;
-                }
-                else 
-                { 
-                    return Visibility.Visible; 
-                }
-            }
-        }
+        public double CostWithDiscount => (double)Cost * (1.0 - (Discount ?? 0));
 
-        public string BackColor
-        {
-            get
-            {
-                if (Discount == 0 || Discount == null)
-                {
-                    return "#FFFFE1";
-                }
-                else
-                {
-                    return "#D1FFD1";
-                }
-            }
-        }
+        public string TotalCost => $"{(HasDiscount ? CostWithDiscount : (double)Cost):N2} рублей за {DurationInSeconds / 60} минут";
 
-        public string AdminControlsVisibility
-        {
-            get
-            {
-                // 1 - админ, 2 - пользователь.
-                if (App.CurrentUser.RoleId == 1)
-                {
-                    return "Visible";
-                }
-                else
-                {
-                    return "Collapsed";
-                }
-            }
-        }
+        public Visibility DiscountVisibility => HasDiscount ? Visibility.Visible : Visibility.Collapsed;
+
+        // Фон карточки: светло-зеленый для услуг со скидкой.
+        public string BackColor => HasDiscount ? "#D1FFD1" : "#FFFFE1";
+
+        // Кнопки "Редактировать" и "Удалить" видит только администратор.
+        public Visibility AdminControlsVisibility => App.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
     }
 }

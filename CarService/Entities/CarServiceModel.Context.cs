@@ -13,10 +13,10 @@ namespace CarService.Entities
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class СarServiceEntities : DbContext
+    public partial class CarServiceEntities : DbContext
     {
-        public СarServiceEntities()
-            : base("name=СarServiceEntities")
+        public CarServiceEntities()
+            : base("name=CarServiceEntities")
         {
         }
     

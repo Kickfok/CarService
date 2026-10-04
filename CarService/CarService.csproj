@@ -164,6 +164,7 @@
     <Compile Include="Pages\ServicesPage.xaml.cs">
       <DependentUpon>ServicesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -207,23 +208,10 @@
     <Resource Include="Images\Useful Images\service_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Services\diz.jpg" />
-    <Resource Include="Images\Services\rulevoe-upravlenie-avtomobilya.jpg" />
-    <Resource Include="Images\Services\transmission.jpg" />
-    <Resource Include="Images\Services\АКПП.jpg" />
-    <Resource Include="Images\Services\Вариатор.jpg" />
-    <Resource Include="Images\Services\Выхлопная система.jpg" />
-    <Resource Include="Images\Services\ГУР.png" />
-    <Resource Include="Images\Services\Двигатель.png" />
-    <Resource Include="Images\Services\Дополнительные услуги.png" />
-    <Resource Include="Images\Services\Кондиционер.jpg" />
-    <Resource Include="Images\Services\КПП.png" />
-    <Resource Include="Images\Services\Подвеска.png" />
-    <Resource Include="Images\Services\Сцепление.jpg" />
-    <Resource Include="Images\Services\Техническое обслуживание.png" />
-    <Resource Include="Images\Services\Топливная система.png" />
-    <Resource Include="Images\Services\Шиномонтаж.jpg" />
-    <Resource Include="Images\Services\Электрика.png" />
+    <ProjectReference Include="..\UserRegistration\UserRegistration.csproj">
+      <Project>{80BF7D3C-4A3B-43EA-8112-911FE81FF10A}</Project>
+      <Name>UserRegistration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entities\CarServiceModel.Context.tt">

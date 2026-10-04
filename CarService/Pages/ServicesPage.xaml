@@ -33,9 +33,11 @@
                 <ComboBoxItem Content="От 30 до 70 %"/>
                 <ComboBoxItem Content="От 70 до 100 %"/>
             </ComboBox>
-            <TextBox Height="25" Name="TBoxSearch" Width="200" Margin ="5" TextChanged="TBoxSearch_TextChanged" FontSize="16"/>
+            <TextBlock Text="Поиск:" VerticalAlignment="Center" FontSize="16" Margin="10, 5, 0, 5"/>
+            <TextBox Height="25" Name="TBoxSearch" Width="200" Margin ="5" TextChanged="TBoxSearch_TextChanged" FontSize="16"
+                     ToolTip="Поиск по названию услуги"/>
         </StackPanel>
-        <TextBlock Grid.Row="1" Width="auto" FontWeight="Bold" Name="BlockRecords"/>
+        <TextBlock Grid.Row="1" Width="auto" FontWeight="Bold" Name="BlockRecords" HorizontalAlignment="Center" FontSize="14"/>
 
         <ListView Grid.Row="2" Name="LViewServices"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">

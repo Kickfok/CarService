@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище СarServiceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище CarServiceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AttachedProduct">
           <Key>
             <PropertyRef Name="MainProductID" />
@@ -148,8 +148,8 @@
           <Key>
             <PropertyRef Name="Login" />
           </Key>
-          <Property Name="Login" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_AttachedProduct_Product">
@@ -320,7 +320,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище СarServiceModelContainer">
+        <EntityContainer Name="Хранилище CarServiceModelContainer">
           <EntitySet Name="AttachedProduct" EntityType="Self.AttachedProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientService" EntityType="Self.ClientService" Schema="dbo" store:Type="Tables" />
@@ -397,67 +397,67 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="СarServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="СarServiceEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Client" EntityType="СarServiceModel.Client" />
-          <EntitySet Name="ClientService" EntityType="СarServiceModel.ClientService" />
-          <EntitySet Name="DocumentByService" EntityType="СarServiceModel.DocumentByService" />
-          <EntitySet Name="Gender" EntityType="СarServiceModel.Gender" />
-          <EntitySet Name="Manufacturer" EntityType="СarServiceModel.Manufacturer" />
-          <EntitySet Name="Product" EntityType="СarServiceModel.Product" />
-          <EntitySet Name="ProductPhoto" EntityType="СarServiceModel.ProductPhoto" />
-          <EntitySet Name="ProductSale" EntityType="СarServiceModel.ProductSale" />
-          <EntitySet Name="Role" EntityType="СarServiceModel.Role" />
-          <EntitySet Name="Service" EntityType="СarServiceModel.Service" />
-          <EntitySet Name="ServicePhoto" EntityType="СarServiceModel.ServicePhoto" />
-          <EntitySet Name="sysdiagrams" EntityType="СarServiceModel.sysdiagrams" />
-          <EntitySet Name="Tag" EntityType="СarServiceModel.Tag" />
-          <EntitySet Name="User" EntityType="СarServiceModel.User" />
-          <AssociationSet Name="FK_Client_Gender" Association="СarServiceModel.FK_Client_Gender">
+      <Schema Namespace="CarServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CarServiceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="CarServiceModel.Client" />
+          <EntitySet Name="ClientService" EntityType="CarServiceModel.ClientService" />
+          <EntitySet Name="DocumentByService" EntityType="CarServiceModel.DocumentByService" />
+          <EntitySet Name="Gender" EntityType="CarServiceModel.Gender" />
+          <EntitySet Name="Manufacturer" EntityType="CarServiceModel.Manufacturer" />
+          <EntitySet Name="Product" EntityType="CarServiceModel.Product" />
+          <EntitySet Name="ProductPhoto" EntityType="CarServiceModel.ProductPhoto" />
+          <EntitySet Name="ProductSale" EntityType="CarServiceModel.ProductSale" />
+          <EntitySet Name="Role" EntityType="CarServiceModel.Role" />
+          <EntitySet Name="Service" EntityType="CarServiceModel.Service" />
+          <EntitySet Name="ServicePhoto" EntityType="CarServiceModel.ServicePhoto" />
+          <EntitySet Name="sysdiagrams" EntityType="CarServiceModel.sysdiagrams" />
+          <EntitySet Name="Tag" EntityType="CarServiceModel.Tag" />
+          <EntitySet Name="User" EntityType="CarServiceModel.User" />
+          <AssociationSet Name="FK_Client_Gender" Association="CarServiceModel.FK_Client_Gender">
             <End Role="Gender" EntitySet="Gender" />
             <End Role="Client" EntitySet="Client" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientService_Client" Association="СarServiceModel.FK_ClientService_Client">
+          <AssociationSet Name="FK_ClientService_Client" Association="CarServiceModel.FK_ClientService_Client">
             <End Role="Client" EntitySet="Client" />
             <End Role="ClientService" EntitySet="ClientService" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientService_Service" Association="СarServiceModel.FK_ClientService_Service">
+          <AssociationSet Name="FK_ClientService_Service" Association="CarServiceModel.FK_ClientService_Service">
             <End Role="Service" EntitySet="Service" />
             <End Role="ClientService" EntitySet="ClientService" />
           </AssociationSet>
-          <AssociationSet Name="FK_DocumentByService_ClientService" Association="СarServiceModel.FK_DocumentByService_ClientService">
+          <AssociationSet Name="FK_DocumentByService_ClientService" Association="CarServiceModel.FK_DocumentByService_ClientService">
             <End Role="ClientService" EntitySet="ClientService" />
             <End Role="DocumentByService" EntitySet="DocumentByService" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductSale_ClientService" Association="СarServiceModel.FK_ProductSale_ClientService">
+          <AssociationSet Name="FK_ProductSale_ClientService" Association="CarServiceModel.FK_ProductSale_ClientService">
             <End Role="ClientService" EntitySet="ClientService" />
             <End Role="ProductSale" EntitySet="ProductSale" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_Manufacturer" Association="СarServiceModel.FK_Product_Manufacturer">
+          <AssociationSet Name="FK_Product_Manufacturer" Association="CarServiceModel.FK_Product_Manufacturer">
             <End Role="Manufacturer" EntitySet="Manufacturer" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductPhoto_Product" Association="СarServiceModel.FK_ProductPhoto_Product">
+          <AssociationSet Name="FK_ProductPhoto_Product" Association="CarServiceModel.FK_ProductPhoto_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductPhoto" EntitySet="ProductPhoto" />
           </AssociationSet>
-          <AssociationSet Name="FK_ProductSale_Product" Association="СarServiceModel.FK_ProductSale_Product">
+          <AssociationSet Name="FK_ProductSale_Product" Association="CarServiceModel.FK_ProductSale_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductSale" EntitySet="ProductSale" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_Role1" Association="СarServiceModel.FK_User_Role1">
+          <AssociationSet Name="FK_User_Role1" Association="CarServiceModel.FK_User_Role1">
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
-          <AssociationSet Name="FK_ServicePhoto_Service" Association="СarServiceModel.FK_ServicePhoto_Service">
+          <AssociationSet Name="FK_ServicePhoto_Service" Association="CarServiceModel.FK_ServicePhoto_Service">
             <End Role="Service" EntitySet="Service" />
             <End Role="ServicePhoto" EntitySet="ServicePhoto" />
           </AssociationSet>
-          <AssociationSet Name="AttachedProduct" Association="СarServiceModel.AttachedProduct">
+          <AssociationSet Name="AttachedProduct" Association="CarServiceModel.AttachedProduct">
             <End Role="Product" EntitySet="Product" />
             <End Role="Product1" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="TagOfClient" Association="СarServiceModel.TagOfClient">
+          <AssociationSet Name="TagOfClient" Association="CarServiceModel.TagOfClient">
             <End Role="Client" EntitySet="Client" />
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
@@ -476,9 +476,9 @@
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="GenderCode" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="PhotoPath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Gender" Relationship="СarServiceModel.FK_Client_Gender" FromRole="Client" ToRole="Gender" />
-          <NavigationProperty Name="ClientService" Relationship="СarServiceModel.FK_ClientService_Client" FromRole="Client" ToRole="ClientService" />
-          <NavigationProperty Name="Tag" Relationship="СarServiceModel.TagOfClient" FromRole="Client" ToRole="Tag" />
+          <NavigationProperty Name="Gender" Relationship="CarServiceModel.FK_Client_Gender" FromRole="Client" ToRole="Gender" />
+          <NavigationProperty Name="ClientService" Relationship="CarServiceModel.FK_ClientService_Client" FromRole="Client" ToRole="ClientService" />
+          <NavigationProperty Name="Tag" Relationship="CarServiceModel.TagOfClient" FromRole="Client" ToRole="Tag" />
         </EntityType>
         <EntityType Name="ClientService">
           <Key>
@@ -489,10 +489,10 @@
           <Property Name="ServiceID" Type="Int32" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="СarServiceModel.FK_ClientService_Client" FromRole="ClientService" ToRole="Client" />
-          <NavigationProperty Name="Service" Relationship="СarServiceModel.FK_ClientService_Service" FromRole="ClientService" ToRole="Service" />
-          <NavigationProperty Name="DocumentByService" Relationship="СarServiceModel.FK_DocumentByService_ClientService" FromRole="ClientService" ToRole="DocumentByService" />
-          <NavigationProperty Name="ProductSale" Relationship="СarServiceModel.FK_ProductSale_ClientService" FromRole="ClientService" ToRole="ProductSale" />
+          <NavigationProperty Name="Client" Relationship="CarServiceModel.FK_ClientService_Client" FromRole="ClientService" ToRole="Client" />
+          <NavigationProperty Name="Service" Relationship="CarServiceModel.FK_ClientService_Service" FromRole="ClientService" ToRole="Service" />
+          <NavigationProperty Name="DocumentByService" Relationship="CarServiceModel.FK_DocumentByService_ClientService" FromRole="ClientService" ToRole="DocumentByService" />
+          <NavigationProperty Name="ProductSale" Relationship="CarServiceModel.FK_ProductSale_ClientService" FromRole="ClientService" ToRole="ProductSale" />
         </EntityType>
         <EntityType Name="DocumentByService">
           <Key>
@@ -501,7 +501,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientServiceID" Type="Int32" Nullable="false" />
           <Property Name="DocumentPath" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ClientService" Relationship="СarServiceModel.FK_DocumentByService_ClientService" FromRole="DocumentByService" ToRole="ClientService" />
+          <NavigationProperty Name="ClientService" Relationship="CarServiceModel.FK_DocumentByService_ClientService" FromRole="DocumentByService" ToRole="ClientService" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
@@ -509,7 +509,7 @@
           </Key>
           <Property Name="Code" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="СarServiceModel.FK_Client_Gender" FromRole="Gender" ToRole="Client" />
+          <NavigationProperty Name="Client" Relationship="CarServiceModel.FK_Client_Gender" FromRole="Gender" ToRole="Client" />
         </EntityType>
         <EntityType Name="Manufacturer">
           <Key>
@@ -518,7 +518,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="StartDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Product" Relationship="СarServiceModel.FK_Product_Manufacturer" FromRole="Manufacturer" ToRole="Product" />
+          <NavigationProperty Name="Product" Relationship="CarServiceModel.FK_Product_Manufacturer" FromRole="Manufacturer" ToRole="Product" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -531,11 +531,11 @@
           <Property Name="MainImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="ManufacturerID" Type="Int32" />
-          <NavigationProperty Name="Manufacturer" Relationship="СarServiceModel.FK_Product_Manufacturer" FromRole="Product" ToRole="Manufacturer" />
-          <NavigationProperty Name="ProductPhoto" Relationship="СarServiceModel.FK_ProductPhoto_Product" FromRole="Product" ToRole="ProductPhoto" />
-          <NavigationProperty Name="ProductSale" Relationship="СarServiceModel.FK_ProductSale_Product" FromRole="Product" ToRole="ProductSale" />
-          <NavigationProperty Name="Product1" Relationship="СarServiceModel.AttachedProduct" FromRole="Product" ToRole="Product1" />
-          <NavigationProperty Name="Product2" Relationship="СarServiceModel.AttachedProduct" FromRole="Product1" ToRole="Product" />
+          <NavigationProperty Name="Manufacturer" Relationship="CarServiceModel.FK_Product_Manufacturer" FromRole="Product" ToRole="Manufacturer" />
+          <NavigationProperty Name="ProductPhoto" Relationship="CarServiceModel.FK_ProductPhoto_Product" FromRole="Product" ToRole="ProductPhoto" />
+          <NavigationProperty Name="ProductSale" Relationship="CarServiceModel.FK_ProductSale_Product" FromRole="Product" ToRole="ProductSale" />
+          <NavigationProperty Name="Product1" Relationship="CarServiceModel.AttachedProduct" FromRole="Product" ToRole="Product1" />
+          <NavigationProperty Name="Product2" Relationship="CarServiceModel.AttachedProduct" FromRole="Product1" ToRole="Product" />
         </EntityType>
         <EntityType Name="ProductPhoto">
           <Key>
@@ -544,7 +544,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductID" Type="Int32" Nullable="false" />
           <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Product" Relationship="СarServiceModel.FK_ProductPhoto_Product" FromRole="ProductPhoto" ToRole="Product" />
+          <NavigationProperty Name="Product" Relationship="CarServiceModel.FK_ProductPhoto_Product" FromRole="ProductPhoto" ToRole="Product" />
         </EntityType>
         <EntityType Name="ProductSale">
           <Key>
@@ -555,8 +555,8 @@
           <Property Name="ProductID" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="ClientServiceID" Type="Int32" />
-          <NavigationProperty Name="ClientService" Relationship="СarServiceModel.FK_ProductSale_ClientService" FromRole="ProductSale" ToRole="ClientService" />
-          <NavigationProperty Name="Product" Relationship="СarServiceModel.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
+          <NavigationProperty Name="ClientService" Relationship="CarServiceModel.FK_ProductSale_ClientService" FromRole="ProductSale" ToRole="ClientService" />
+          <NavigationProperty Name="Product" Relationship="CarServiceModel.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -564,7 +564,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="User" Relationship="СarServiceModel.FK_User_Role1" FromRole="Role" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="CarServiceModel.FK_User_Role1" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -577,8 +577,8 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Discount" Type="Double" />
           <Property Name="MainImage" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="ClientService" Relationship="СarServiceModel.FK_ClientService_Service" FromRole="Service" ToRole="ClientService" />
-          <NavigationProperty Name="ServicePhoto" Relationship="СarServiceModel.FK_ServicePhoto_Service" FromRole="Service" ToRole="ServicePhoto" />
+          <NavigationProperty Name="ClientService" Relationship="CarServiceModel.FK_ClientService_Service" FromRole="Service" ToRole="ClientService" />
+          <NavigationProperty Name="ServicePhoto" Relationship="CarServiceModel.FK_ServicePhoto_Service" FromRole="Service" ToRole="ServicePhoto" />
         </EntityType>
         <EntityType Name="ServicePhoto">
           <Key>
@@ -587,7 +587,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceID" Type="Int32" Nullable="false" />
           <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Service" Relationship="СarServiceModel.FK_ServicePhoto_Service" FromRole="ServicePhoto" ToRole="Service" />
+          <NavigationProperty Name="Service" Relationship="CarServiceModel.FK_ServicePhoto_Service" FromRole="ServicePhoto" ToRole="Service" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -606,20 +606,20 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="Color" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="СarServiceModel.TagOfClient" FromRole="Tag" ToRole="Client" />
+          <NavigationProperty Name="Client" Relationship="CarServiceModel.TagOfClient" FromRole="Tag" ToRole="Client" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Login" />
           </Key>
-          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="СarServiceModel.FK_User_Role1" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Role" Relationship="CarServiceModel.FK_User_Role1" FromRole="User" ToRole="Role" />
         </EntityType>
         <Association Name="FK_Client_Gender">
-          <End Type="СarServiceModel.Gender" Role="Gender" Multiplicity="1" />
-          <End Type="СarServiceModel.Client" Role="Client" Multiplicity="*" />
+          <End Type="CarServiceModel.Gender" Role="Gender" Multiplicity="1" />
+          <End Type="CarServiceModel.Client" Role="Client" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Gender">
               <PropertyRef Name="Code" />
@@ -630,8 +630,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClientService_Client">
-          <End Type="СarServiceModel.Client" Role="Client" Multiplicity="1" />
-          <End Type="СarServiceModel.ClientService" Role="ClientService" Multiplicity="*" />
+          <End Type="CarServiceModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="CarServiceModel.ClientService" Role="ClientService" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="ID" />
@@ -642,8 +642,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ClientService_Service">
-          <End Type="СarServiceModel.Service" Role="Service" Multiplicity="1" />
-          <End Type="СarServiceModel.ClientService" Role="ClientService" Multiplicity="*" />
+          <End Type="CarServiceModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="CarServiceModel.ClientService" Role="ClientService" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Service">
               <PropertyRef Name="ID" />
@@ -654,8 +654,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DocumentByService_ClientService">
-          <End Type="СarServiceModel.ClientService" Role="ClientService" Multiplicity="1" />
-          <End Type="СarServiceModel.DocumentByService" Role="DocumentByService" Multiplicity="*" />
+          <End Type="CarServiceModel.ClientService" Role="ClientService" Multiplicity="1" />
+          <End Type="CarServiceModel.DocumentByService" Role="DocumentByService" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClientService">
               <PropertyRef Name="ID" />
@@ -666,8 +666,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductSale_ClientService">
-          <End Type="СarServiceModel.ClientService" Role="ClientService" Multiplicity="0..1" />
-          <End Type="СarServiceModel.ProductSale" Role="ProductSale" Multiplicity="*" />
+          <End Type="CarServiceModel.ClientService" Role="ClientService" Multiplicity="0..1" />
+          <End Type="CarServiceModel.ProductSale" Role="ProductSale" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ClientService">
               <PropertyRef Name="ID" />
@@ -678,8 +678,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Product_Manufacturer">
-          <End Type="СarServiceModel.Manufacturer" Role="Manufacturer" Multiplicity="0..1" />
-          <End Type="СarServiceModel.Product" Role="Product" Multiplicity="*" />
+          <End Type="CarServiceModel.Manufacturer" Role="Manufacturer" Multiplicity="0..1" />
+          <End Type="CarServiceModel.Product" Role="Product" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Manufacturer">
               <PropertyRef Name="ID" />
@@ -690,8 +690,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductPhoto_Product">
-          <End Type="СarServiceModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="СarServiceModel.ProductPhoto" Role="ProductPhoto" Multiplicity="*" />
+          <End Type="CarServiceModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="CarServiceModel.ProductPhoto" Role="ProductPhoto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="ID" />
@@ -702,8 +702,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductSale_Product">
-          <End Type="СarServiceModel.Product" Role="Product" Multiplicity="1" />
-          <End Type="СarServiceModel.ProductSale" Role="ProductSale" Multiplicity="*" />
+          <End Type="CarServiceModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="CarServiceModel.ProductSale" Role="ProductSale" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="ID" />
@@ -714,8 +714,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Role1">
-          <End Type="СarServiceModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="СarServiceModel.User" Role="User" Multiplicity="*" />
+          <End Type="CarServiceModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="CarServiceModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="Id" />
@@ -726,8 +726,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ServicePhoto_Service">
-          <End Type="СarServiceModel.Service" Role="Service" Multiplicity="1" />
-          <End Type="СarServiceModel.ServicePhoto" Role="ServicePhoto" Multiplicity="*" />
+          <End Type="CarServiceModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="CarServiceModel.ServicePhoto" Role="ServicePhoto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Service">
               <PropertyRef Name="ID" />
@@ -738,21 +738,21 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="AttachedProduct">
-          <End Type="СarServiceModel.Product" Role="Product" Multiplicity="*" />
-          <End Type="СarServiceModel.Product" Role="Product1" Multiplicity="*" />
+          <End Type="CarServiceModel.Product" Role="Product" Multiplicity="*" />
+          <End Type="CarServiceModel.Product" Role="Product1" Multiplicity="*" />
         </Association>
         <Association Name="TagOfClient">
-          <End Type="СarServiceModel.Client" Role="Client" Multiplicity="*" />
-          <End Type="СarServiceModel.Tag" Role="Tag" Multiplicity="*" />
+          <End Type="CarServiceModel.Client" Role="Client" Multiplicity="*" />
+          <End Type="CarServiceModel.Tag" Role="Tag" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище СarServiceModelContainer" CdmEntityContainer="СarServiceEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CarServiceModelContainer" CdmEntityContainer="CarServiceEntities">
           <EntitySetMapping Name="Client">
-            <EntityTypeMapping TypeName="СarServiceModel.Client">
+            <EntityTypeMapping TypeName="CarServiceModel.Client">
               <MappingFragment StoreEntitySet="Client">
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
                 <ScalarProperty Name="GenderCode" ColumnName="GenderCode" />
@@ -768,7 +768,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ClientService">
-            <EntityTypeMapping TypeName="СarServiceModel.ClientService">
+            <EntityTypeMapping TypeName="CarServiceModel.ClientService">
               <MappingFragment StoreEntitySet="ClientService">
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -779,7 +779,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DocumentByService">
-            <EntityTypeMapping TypeName="СarServiceModel.DocumentByService">
+            <EntityTypeMapping TypeName="CarServiceModel.DocumentByService">
               <MappingFragment StoreEntitySet="DocumentByService">
                 <ScalarProperty Name="DocumentPath" ColumnName="DocumentPath" />
                 <ScalarProperty Name="ClientServiceID" ColumnName="ClientServiceID" />
@@ -788,7 +788,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Gender">
-            <EntityTypeMapping TypeName="СarServiceModel.Gender">
+            <EntityTypeMapping TypeName="CarServiceModel.Gender">
               <MappingFragment StoreEntitySet="Gender">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -796,7 +796,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Manufacturer">
-            <EntityTypeMapping TypeName="СarServiceModel.Manufacturer">
+            <EntityTypeMapping TypeName="CarServiceModel.Manufacturer">
               <MappingFragment StoreEntitySet="Manufacturer">
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -805,7 +805,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="СarServiceModel.Product">
+            <EntityTypeMapping TypeName="CarServiceModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ManufacturerID" ColumnName="ManufacturerID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -818,7 +818,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductPhoto">
-            <EntityTypeMapping TypeName="СarServiceModel.ProductPhoto">
+            <EntityTypeMapping TypeName="CarServiceModel.ProductPhoto">
               <MappingFragment StoreEntitySet="ProductPhoto">
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
@@ -827,7 +827,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductSale">
-            <EntityTypeMapping TypeName="СarServiceModel.ProductSale">
+            <EntityTypeMapping TypeName="CarServiceModel.ProductSale">
               <MappingFragment StoreEntitySet="ProductSale">
                 <ScalarProperty Name="ClientServiceID" ColumnName="ClientServiceID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
@@ -838,7 +838,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="СarServiceModel.Role">
+            <EntityTypeMapping TypeName="CarServiceModel.Role">
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -846,7 +846,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Service">
-            <EntityTypeMapping TypeName="СarServiceModel.Service">
+            <EntityTypeMapping TypeName="CarServiceModel.Service">
               <MappingFragment StoreEntitySet="Service">
                 <ScalarProperty Name="MainImage" ColumnName="MainImage" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
@@ -859,7 +859,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ServicePhoto">
-            <EntityTypeMapping TypeName="СarServiceModel.ServicePhoto">
+            <EntityTypeMapping TypeName="CarServiceModel.ServicePhoto">
               <MappingFragment StoreEntitySet="ServicePhoto">
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
                 <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
@@ -868,7 +868,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="СarServiceModel.sysdiagrams">
+            <EntityTypeMapping TypeName="CarServiceModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="definition" ColumnName="definition" />
                 <ScalarProperty Name="version" ColumnName="version" />
@@ -879,7 +879,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tag">
-            <EntityTypeMapping TypeName="СarServiceModel.Tag">
+            <EntityTypeMapping TypeName="CarServiceModel.Tag">
               <MappingFragment StoreEntitySet="Tag">
                 <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -888,7 +888,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="СarServiceModel.User">
+            <EntityTypeMapping TypeName="CarServiceModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -896,7 +896,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AttachedProduct" TypeName="СarServiceModel.AttachedProduct" StoreEntitySet="AttachedProduct">
+          <AssociationSetMapping Name="AttachedProduct" TypeName="CarServiceModel.AttachedProduct" StoreEntitySet="AttachedProduct">
             <EndProperty Name="Product1">
               <ScalarProperty Name="ID" ColumnName="AttachedProductID" />
             </EndProperty>
@@ -904,7 +904,7 @@
               <ScalarProperty Name="ID" ColumnName="MainProductID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="TagOfClient" TypeName="СarServiceModel.TagOfClient" StoreEntitySet="TagOfClient">
+          <AssociationSetMapping Name="TagOfClient" TypeName="CarServiceModel.TagOfClient" StoreEntitySet="TagOfClient">
             <EndProperty Name="Tag">
               <ScalarProperty Name="ID" ColumnName="TagID" />
             </EndProperty>

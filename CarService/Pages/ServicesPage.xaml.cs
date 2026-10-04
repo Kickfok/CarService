@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CarService.Pages
 {
@@ -20,51 +10,82 @@ namespace CarService.Pages
     /// </summary>
     public partial class ServicesPage : Page
     {
+        // Диапазоны скидки в процентах для фильтра, по порядку пунктов ComboDiscount (пункт 0 - "Все").
+        // Нижняя граница включается, верхняя нет. Сравниваются округленные проценты, а не доли,
+        // чтобы погрешность float (0.15 хранится как 0.1499...) не переносила услугу в соседний диапазон.
+        private static readonly Tuple<double, double>[] DiscountRanges =
+        {
+            null,
+            Tuple.Create(0.0, 5.0),
+            Tuple.Create(5.0, 15.0),
+            Tuple.Create(15.0, 30.0),
+            Tuple.Create(30.0, 70.0),
+            Tuple.Create(70.0, 100.1)
+        };
+
         public ServicesPage()
         {
             InitializeComponent();
 
-            //1 - админ, 2 - пользователь.
-            if (App.CurrentUser.RoleId == 1)
-            {
-                BtnAddService.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                BtnAddService.Visibility = Visibility.Collapsed;
-            }
+            //Добавлять услуги может только администратор
+            BtnAddService.Visibility = App.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
 
             ComboDiscount.SelectedIndex = 0;
             ComboSortBy.SelectedIndex = 0;
-            UpdateServices();
         }
 
-        //Переход на страницу добавление услуг
+        //Переход на страницу добавления услуги
         private void BtnAddService_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new AddEditServicePage());
         }
 
-        //Переход на страницу редактирование услуг на основе уже введённых (сохранённых в БД) данных
+        //Переход на страницу редактирования выбранной услуги
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
             var currentService = (sender as Button).DataContext as Entities.Service;
             NavigationService.Navigate(new AddEditServicePage(currentService));
         }
 
-        //Проверка, существования данных в БД и удаление услуги
+        //Удаление услуги с подтверждением
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var currentService = (sender as Button).DataContext as Entities.Service;
 
-            //Ввод подтверждающего сообщения
-            if (MessageBox.Show($"Вы уверены, что хотите удалить услугу: " + $"{currentService.Title}?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            //На услугу уже записаны клиенты: удаление нарушит связи в БД
+            if (currentService.ClientService.Any())
             {
-                App.Context.Service.Remove(currentService);
-                App.Context.SaveChanges();
-                UpdateServices();
+                MessageBox.Show($"Услугу \"{currentService.Title}\" нельзя удалить: на нее есть записи клиентов " +
+                                $"({currentService.ClientService.Count}).",
+                                "Удаление невозможно", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
             }
 
+            if (MessageBox.Show($"Вы уверены, что хотите удалить услугу \"{currentService.Title}\"?", "Внимание",
+                                MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                //Дополнительные фотографии услуги удаляются вместе с ней
+                App.Context.ServicePhoto.RemoveRange(currentService.ServicePhoto.ToList());
+                App.Context.Service.Remove(currentService);
+                App.Context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //Откат несохраненных изменений, чтобы контекст остался в согласованном состоянии
+                foreach (var entry in App.Context.ChangeTracker.Entries().ToList())
+                {
+                    entry.State = System.Data.Entity.EntityState.Unchanged;
+                }
+                MessageBox.Show("Не удалось удалить услугу.\n\n" + ex.GetBaseException().Message,
+                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            UpdateServices();
         }
 
         //Обновление данных на основе выбранного фильтра
@@ -79,37 +100,45 @@ namespace CarService.Pages
             UpdateServices();
         }
 
-        //Обновление данных на основе выбранного фильтра
+        //Обновление данных на основе строки поиска
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateServices();
         }
+
         private void UpdateServices()
         {
-            var services = App.Context.Service.ToList();
+            //Обработчики фильтров срабатывают уже в конструкторе; первую загрузку выполняет Page_Loaded
+            if (!IsLoaded)
+            {
+                return;
+            }
 
-            //Сортировка по цене
-            if (ComboSortBy.SelectedIndex == 0)
-                services = services.OrderBy(p => p.CostWithDiscount).ToList();
-            else
-                services = services.OrderByDescending(p => p.CostWithDiscount).ToList();
+            var allServices = App.Context.Service.ToList();
+            var services = allServices.AsEnumerable();
 
-            //Сортировака по размеру скидки
-            if (ComboDiscount.SelectedIndex == 1)
-                services = services.Where(p => p.Discount >= 0 && p.Discount < 0.05).ToList();
-            if (ComboDiscount.SelectedIndex == 2)
-                services = services.Where(p => p.Discount >= 0.05 && p.Discount < 0.15).ToList();
-            if (ComboDiscount.SelectedIndex == 3)
-                services = services.Where(p => p.Discount >= 0.15 && p.Discount < 0.3).ToList();
-            if (ComboDiscount.SelectedIndex == 4)
-                services = services.Where(p => p.Discount >= 0.3 && p.Discount < 0.7).ToList();
-            if (ComboDiscount.SelectedIndex == 5)
-                services = services.Where(p => p.Discount >= 0.7 && p.Discount < 1).ToList();
+            //Фильтр по размеру скидки, услуга без скидки попадает в диапазон от 0 %
+            var range = ComboDiscount.SelectedIndex > 0 ? DiscountRanges[ComboDiscount.SelectedIndex] : null;
+            if (range != null)
+            {
+                services = services.Where(p => p.DiscountPercent >= range.Item1 && p.DiscountPercent < range.Item2);
+            }
 
-            //Поиск по названию
-            services = services.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+            //Поиск по названию без учета регистра
+            var search = TBoxSearch.Text.Trim();
+            if (search.Length > 0)
+            {
+                services = services.Where(p => p.Title.IndexOf(search, StringComparison.CurrentCultureIgnoreCase) >= 0);
+            }
 
-            LViewServices.ItemsSource = services;
+            //Сортировка по цене с учетом скидки
+            services = ComboSortBy.SelectedIndex == 1
+                ? services.OrderByDescending(p => p.CostWithDiscount)
+                : services.OrderBy(p => p.CostWithDiscount);
+
+            var result = services.ToList();
+            LViewServices.ItemsSource = result;
+            BlockRecords.Text = $"Показано {result.Count} из {allServices.Count}";
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

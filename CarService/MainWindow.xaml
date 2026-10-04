@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:CarService"
         mc:Ignorable="d"
         xmlns:command="clr-namespace:CarService.Entities"
-        Title="Подай на 16" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
+        Title="Подай на 16" Height="720" Width="1100" MinHeight="600" MinWidth="900"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
 
     <Grid>
 
@@ -23,7 +24,7 @@
 
         <Button Content="Назад" HorizontalAlignment="Right" Name="btnBack" Width="200" Height="35" Click="btnBack_Click" Margin="5, 5, 20, 5" Style="{DynamicResource StandartButtons}"/>
 
-        <TextBlock Style="{DynamicResource Header}" Text="{Binding ElementName=FrameMain, Path=Content.Title}" Width="350"/>
+        <TextBlock Style="{DynamicResource Header}" Text="{Binding ElementName=FrameMain, Path=Content.Title}"/>
 
         <Frame x:Name="FrameMain" NavigationUIVisibility="Hidden" Grid.Row="1"/>
 
